@@ -1,6 +1,7 @@
 var listaDias = [];
 var listaEnf = [];
 var listaFuncoes = [];
+var listaFuncoesDias = [];
 
 window.escalaUi = {
     init: function () {
@@ -33,8 +34,10 @@ window.escalaUi = {
 
         for (var x = 0; x < listaEnf.length; x++) {
             $("#tableEnf").append('<tr id="tr' + listaEnf[x].Id + '"></tr>');
-            $("#tr" + listaEnf[x].Id).append('<th scope="row" colspan="3">' + (x + 1) + ' - ' + listaEnf[x].Nome + ' </th>');
+            $("#tr" + listaEnf[x].Id).append('<th scope="row">' + (x + 1) + ' - ' + listaEnf[x].Nome + ' </th>');
         }
+
+
 
         if (listaEnf.length > 0) {
             $("#btnGerarFuncoes").removeAttr('disabled')
@@ -45,33 +48,63 @@ window.escalaUi = {
 
         for (var x = 0; x < listaDias.length; x++) {
             for (var y = 0; y < listaEnf.length; y++) {
-                $("#tr" + listaEnf[y].Id).append('<td> <select class="form-control-sm" id="exampleFormControlSelect1">' +
-                    '<option></option>' +
-                    '<option>PAT</option>' +
-                    '</select > </td > ');
+                $("#tr" + listaEnf[y].Id).append(
+                    '<td>' +
+                    '   <select class= "form-control-sm" id="select-' + x + '-' + y + '"> ' +
+                    '       <option value="0"></option>' +
+                    '       <option value="F">F</option>' +
+                    '       <option value="AF">AF</option>' +
+                    '   </select>' +
+                    '</td > ');
             }
         }
     },
 
     popularFuncoes: function () {
+        listaFuncoesDia = window.escalaFunctions.getListaPreFuncoes();
+
         $("#tableEnf").empty();
         window.escalaUi.popularTableEnf();
 
         listaFuncoes = window.escalaFunctions.getListaFuncoes();
 
         for (var x = 0; x < listaDias.length; x++) {
-            var sequenciaDia = window.escalaFunctions.getSequenciaEnfDia(9);
+
+            let funcoes = "SL,PP,P,P,RN,PATO,MC,MC,OBS,CTB,AC".split(",");
+
+            let enfDisponiveisDia = listaFuncoesDias[x].funcoes.filter(function (funcao) {
+                return funcao == "0";
+            });
 
             for (var y = 0; y < listaEnf.length; y++) {
-                $("#tr" + listaEnf[y].Id).append('<td>' + sequenciaDia[y] + ' </td>');
+
+                let numRandom = Math.floor(Math.random() * funcoes.length);
+                let funcaoEnfDia = funcoes[numRandom];
+
+                var index = funcoes.indexOf(funcaoEnfDia);
+                if (index !== -1) funcoes.splice(index, 1);
+
+                $("#tr" + listaEnf[y].Id).append('<td>' + funcaoEnfDia + ' </td>');
+                //$("#tr" + listaEnf[y].Id).append('<td>' + sequenciaDia[y] + ' </td>');
+
             }
+
+            $("#tableQntEnf > tr").append('<th>' + enfDisponiveisDia.length + '</th>');
+
+
+            var sequenciaDia = window.escalaFunctions.getSequenciaEnfDia(9);
+
+            //var funcaoEnfDia = window.escalaFunctions.getFuncaoEnfDia(x);
         }
     },
 
     limparDadosTabela: function () {
 
         $("#tableDataEnf").empty();
-        $("#tableDataEnf").append('<tr><th scope="col" colspan="3">Data: </th></tr>');
+        $("#tableDataEnf").append('<tr><th scope="col">Data: </th></tr>');
+
+        $("#tableQntEnf").empty();
+        $("#tableQntEnf").append('<tr><th scope="col">Funcionarios: </th></tr>');
 
         $("#tableEnf").empty();
 
@@ -132,7 +165,46 @@ window.escalaFunctions = {
         }
 
         return funcoesNoDia;
+    },
+
+    getFuncaoEnfDia: function (posicaoDia, posicaoEnf) {
+
+        var dadosEnf = listaEnf[posicaoEnf];
+
+        let funcoes = "SL,PP,P,P,RN,PATO,MC,MC,OBS,CTB,AC".split(",");
+
+        for (var i = 0; i < length; i++) {
+
+        }
+
+
+
+
+
+
+
+
+    },
+
+    getListaPreFuncoes: function () {
+        listaFuncoesDias = [];
+        for (var x = 0; x < listaDias.length; x++) {
+
+            var funcoesDia = {
+                "dia": listaDias[x],
+                "funcoes": [
+                ]
+            };
+
+            for (var y = 0; y < listaEnf.length; y++) {
+                funcoesDia.funcoes.push($('#select-' + x + '-' + y).val());
+            }
+
+            listaFuncoesDias.push(funcoesDia);
+        }
+
     }
+
 };
 
 window.escalaEvents = {

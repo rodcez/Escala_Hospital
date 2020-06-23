@@ -14,9 +14,9 @@ const ENFERMEIROS = [
         "Id": 1,
         "Nome": "NOME EXEMPLO 1",
         "Funcoes": [
-            { "PP": 1 },
+            { "PP": 3 },
             { "AC": 3 },
-            { "P": 2 },
+            { "P": 3 },
             { "OBS": 0 },
         ],
         "Afinidade": [
@@ -125,6 +125,34 @@ const ENFERMEIROS = [
     {
         "Id": 9,
         "Nome": "NOME EXEMPLO 9",
+        "Funcoes": [
+            { "PP": 1 },
+            { "AC": 3 },
+            { "P": 2 },
+            { "OBS": 0 },
+        ],
+        "Afinidade": [
+            { "Positiva": [2] },
+            { "Negativa": [3] },
+        ]
+    },
+    {
+        "Id": 10,
+        "Nome": "NOME EXEMPLO 10",
+        "Funcoes": [
+            { "PP": 1 },
+            { "AC": 3 },
+            { "P": 2 },
+            { "OBS": 0 },
+        ],
+        "Afinidade": [
+            { "Positiva": [2] },
+            { "Negativa": [3] },
+        ]
+    },
+    {
+        "Id": 11,
+        "Nome": "NOME EXEMPLO 11",
         "Funcoes": [
             { "PP": 1 },
             { "AC": 3 },
