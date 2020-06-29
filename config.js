@@ -281,3 +281,9 @@ const SELECTMESDATA = {
     "11": "Novembro",
     "12": "Dezembro",
 };
+
+
+const HTMLBGTABLE = {
+    "F": "style='background-color: #343a40; color: white'",
+    "AF": "style='background-color: #6c757d; color: white'",
+};

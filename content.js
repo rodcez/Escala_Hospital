@@ -37,8 +37,6 @@ window.escalaUi = {
             $("#tr" + listaEnf[x].Id).append('<th scope="row">' + (x + 1) + ' - ' + listaEnf[x].Nome + ' </th>');
         }
 
-
-
         if (listaEnf.length > 0) {
             $("#btnGerarFuncoes").removeAttr('disabled')
         }
@@ -54,6 +52,7 @@ window.escalaUi = {
                     '       <option value="0"></option>' +
                     '       <option value="F">F</option>' +
                     '       <option value="AF">AF</option>' +
+                    '       <option value="AC">AC</option>' +
                     '   </select>' +
                     '</td > ');
             }
@@ -73,28 +72,39 @@ window.escalaUi = {
             let funcoes = "SL,PP,P,P,RN,PATO,MC,MC,OBS,CTB,AC".split(",");
 
             let enfDisponiveisDia = listaFuncoesDias[x].funcoes.filter(function (funcao) {
-                return funcao == "0";
+                return funcao != "F" && funcao != "AF";
             });
 
             for (var y = 0; y < listaEnf.length; y++) {
 
-                let numRandom = Math.floor(Math.random() * funcoes.length);
-                let funcaoEnfDia = funcoes[numRandom];
+                if (listaFuncoesDias[x].funcoes[y] == "0") {
 
-                var index = funcoes.indexOf(funcaoEnfDia);
-                if (index !== -1) funcoes.splice(index, 1);
+                    let numRandom = Math.floor(Math.random() * funcoes.length);
+                    let funcaoEnfDia = funcoes[numRandom];
 
-                $("#tr" + listaEnf[y].Id).append('<td>' + funcaoEnfDia + ' </td>');
-                //$("#tr" + listaEnf[y].Id).append('<td>' + sequenciaDia[y] + ' </td>');
+                    var index = funcoes.indexOf(funcaoEnfDia);
+                    if (index !== -1) funcoes.splice(index, 1);
 
+                    $("#tr" + listaEnf[y].Id).append('<td>' + funcaoEnfDia + ' </td>');
+                } else {
+                    var index = funcoes.indexOf(listaFuncoesDias[x].funcoes[y]);
+                    if (index !== -1) funcoes.splice(index, 1);
+
+                    var html = "";
+
+                    if (listaFuncoesDias[x].funcoes[y] == "F") {
+                        html = HTMLBGTABLE.F;
+                    }
+
+                    if (listaFuncoesDias[x].funcoes[y] == "AF") {
+                        html = HTMLBGTABLE.AF;
+                    }
+
+                    $("#tr" + listaEnf[y].Id).append('<td ' + html + '>' + listaFuncoesDias[x].funcoes[y] + ' </td>');
+                }
             }
 
             $("#tableQntEnf > tr").append('<th>' + enfDisponiveisDia.length + '</th>');
-
-
-            var sequenciaDia = window.escalaFunctions.getSequenciaEnfDia(9);
-
-            //var funcaoEnfDia = window.escalaFunctions.getFuncaoEnfDia(x);
         }
     },
 
